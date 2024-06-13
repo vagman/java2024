@@ -10,9 +10,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
-import static javax.management.remote.JMXConnectorFactory.connect;
-
 public class MainMenuForm extends JFrame {
+
+    private static boolean programRunningFirstTime = true;
+    static Connection connection;
 
     private JPanel mainMenuPanel;
     private JButton showAllAvailableAnimalsButton;
@@ -23,16 +24,13 @@ public class MainMenuForm extends JFrame {
     private JButton deleteAnAnimalByButton;
     private JButton exitApplicationButton;
 
-    //Βήμα 1. ConnectionString
-    static String connectionString = "jdbc:sqlite:zoo.db";
-
-    //Βήμα 2. Connection object
-    static Connection connection;
-
-    // Βήμα 3. Instantiate connection object
     private static Connection connect(){
         try {
-            connection = DriverManager.getConnection(connectionString);
+            connection = DriverManager.getConnection("jdbc:sqlite:zoo.db");
+            if (programRunningFirstTime) {
+                JOptionPane.showMessageDialog(null, "Connection to the zoo database was successful.", "Connection", JOptionPane.INFORMATION_MESSAGE);
+                programRunningFirstTime = false;
+            }
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -41,26 +39,21 @@ public class MainMenuForm extends JFrame {
 
     static void createAnimalsTable() {
         connection = connect();
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS animal (ID INTEGER, NAME TEXT, ANIMAL_GROUP TEXT, WEIGHT NUMERIC, AVERAGE_LIFE_SPAN INTEGER); INSERT INTO animal VALUES (0, 'Elephant', 'Mammals', 6910.0, 56)";
-        // Δημιουργία αντικειμένου Statement
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS animal (ID INTEGER PRIMARY KEY, NAME TEXT UNIQUE, ANIMAL_GROUP TEXT, WEIGHT NUMERIC, AVERAGE_LIFE_SPAN INTEGER);";
         try {
             Statement statement = connection.createStatement();
             statement.execute(createTableSQL);
             statement.close();
             connection.close();
-            System.out.println("Done!");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 
-
-
     public MainMenuForm() throws SQLException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 700));
+        setSize(new Dimension(700, 500));
         setContentPane(mainMenuPanel);
-        pack();
         setVisible(true);
         setLocationRelativeTo(null);
         setTitle("Attica Zoological Park - Main Menu");
@@ -68,8 +61,18 @@ public class MainMenuForm extends JFrame {
         setIconImage(img.getImage());
         createAnimalsTable();
 
-        showAllAvailableAnimalsButton.addActionListener(e -> {
-
+        showAllAvailableAnimalsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShowAllAnimalsForm addNewAnimal = null;
+                try {
+                    addNewAnimal = new ShowAllAnimalsForm();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+                addNewAnimal.setVisible(true);
+                setVisible(false);
+            }
         });
 
         addNewAnimalButton.addActionListener(new ActionListener() {
@@ -110,14 +113,16 @@ public class MainMenuForm extends JFrame {
         exitApplicationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm.this.dispose();
+                // Terminate all open JFrames
+                for (int i = 0; i < Frame.getFrames().length; i++) {
+                    Frame.getFrames()[i].dispose();
+                }
             }
-        });
+            });
+
     }
 
     public static void main(String[] args) throws SQLException {
         new MainMenuForm();
     }
-    
-
 }
