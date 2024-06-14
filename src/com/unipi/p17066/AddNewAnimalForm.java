@@ -46,7 +46,6 @@ public class AddNewAnimalForm extends JFrame {
             JOptionPane.showMessageDialog(null, "The new animal has been successfully added to the database.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
-            System.out.println(e);
         }
     }
 
@@ -68,6 +67,7 @@ public class AddNewAnimalForm extends JFrame {
                 try {
                     menu = new MainMenuForm();
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
                     throw new RuntimeException(ex);
                 }
                 menu.setVisible(true);

@@ -91,28 +91,40 @@ public class MainMenuForm extends JFrame {
         searchAnimalByNameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SearchAnimalByNameForm searchAnimalByNameForm;
+                searchAnimalByNameForm = new SearchAnimalByNameForm();
+                searchAnimalByNameForm.setVisible(true);
+                setVisible(false);
             }
         });
 
         searchAnimalByIDButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
+                public void actionPerformed(ActionEvent e) {
+                    SearchAnimalByIDForm searchAnimalByIDForm;
+                    searchAnimalByIDForm = new SearchAnimalByIDForm();
+                    searchAnimalByIDForm.setVisible(true);
+                    setVisible(false);
+                }
         });
 
         editAnimalByIDButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                EditAnimalForm editAnimalForm;
+                editAnimalForm = new EditAnimalForm();
+                editAnimalForm.setVisible(true);
+                setVisible(false);
             }
         });
 
         deleteAnAnimalByButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                DeleteAnimalForm deleteAnimalForm;
+                deleteAnimalForm = new DeleteAnimalForm();
+                deleteAnimalForm.setVisible(true);
+                setVisible(false);
             }
         });
 
