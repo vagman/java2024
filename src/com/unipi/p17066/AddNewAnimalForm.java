@@ -43,6 +43,7 @@ public class AddNewAnimalForm extends JFrame {
             statement.executeUpdate();
             statement.close();
             connection.close();
+            JOptionPane.showMessageDialog(null, "The new animal has been successfully added to the database.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
             System.out.println(e);
