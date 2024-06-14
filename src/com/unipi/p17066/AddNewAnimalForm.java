@@ -31,7 +31,7 @@ public class AddNewAnimalForm extends JFrame {
         }
     }
 
-    public static void insertNewAnimal(String animalName, String animalGroup, String averageWeight, String maxAge){
+    public static void insertNewAnimal(String animalName, String animalGroup, String averageWeight, String maxAge) {
         connection = connect();
         try {
             assert connection != null;
