@@ -39,7 +39,7 @@ public class MainMenuForm extends JFrame {
 
     static void createAnimalsTable() {
         connection = connect();
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS animal (ID INTEGER PRIMARY KEY, NAME TEXT UNIQUE, ANIMAL_GROUP TEXT, WEIGHT NUMERIC, AVERAGE_LIFE_SPAN INTEGER);";
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS animal (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT UNIQUE NOT NULL, ANIMAL_GROUP TEXT NOT NULL, WEIGHT NUMERIC NOT NULL, AVERAGE_LIFE_SPAN INTEGER NOT NULL);";
         try {
             Statement statement = connection.createStatement();
             statement.execute(createTableSQL);
@@ -47,6 +47,7 @@ public class MainMenuForm extends JFrame {
             connection.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            System.exit(0);
         }
     }
 
@@ -59,18 +60,20 @@ public class MainMenuForm extends JFrame {
         setTitle("Attica Zoological Park - Main Menu");
         ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/logo.png")));
         setIconImage(img.getImage());
+
         createAnimalsTable();
 
         showAllAvailableAnimalsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShowAllAnimalsForm addNewAnimal = null;
+                ShowAllAnimalsForm showAllAnimalsForm = null;
                 try {
-                    addNewAnimal = new ShowAllAnimalsForm();
+                    showAllAnimalsForm = new ShowAllAnimalsForm();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, e);
                 }
-                addNewAnimal.setVisible(true);
+                assert showAllAnimalsForm != null;
+                showAllAnimalsForm.setVisible(true);
                 setVisible(false);
             }
         });
@@ -78,7 +81,10 @@ public class MainMenuForm extends JFrame {
         addNewAnimalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                AddNewAnimalForm addNewAnimal;
+                addNewAnimal = new AddNewAnimalForm();
+                addNewAnimal.setVisible(true);
+                setVisible(false);
             }
         });
 

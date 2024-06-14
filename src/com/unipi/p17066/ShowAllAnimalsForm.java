@@ -1,15 +1,15 @@
 package com.unipi.p17066;
 
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
-import net.proteanit.sql.DbUtils;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
 
 public class ShowAllAnimalsForm extends JFrame {
 
@@ -29,13 +29,12 @@ public class ShowAllAnimalsForm extends JFrame {
         }
     }
 
-    void showAllAnimalsForm() {
+    void populateAnimalsTable() {
         connection = connect();
         try {
             assert connection != null;
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM animal");
             ResultSet resultSet = statement.executeQuery();
-            System.out.println(resultSet);
             animalsTable.setModel(DbUtils.resultSetToTableModel(resultSet));
             animalsTable.setRowHeight(50);
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -56,6 +55,7 @@ public class ShowAllAnimalsForm extends JFrame {
             connection.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            System.exit(0);
         }
     }
 
@@ -63,14 +63,14 @@ public class ShowAllAnimalsForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(800, 450));
         setContentPane(showAllAnimalsPanel);
-        pack();
         setVisible(true);
+        pack();
         setLocationRelativeTo(null);
         setTitle("Attica Zoological Park - Show All Animals");
         ImageIcon img = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/logo.png")));
         setIconImage(img.getImage());
 
-        showAllAnimalsForm();
+        populateAnimalsTable();
 
         backToMainMenu.addActionListener(new ActionListener() {
             @Override
