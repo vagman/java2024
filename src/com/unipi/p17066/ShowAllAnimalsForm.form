@@ -47,6 +47,7 @@
           </grid>
         </constraints>
         <properties>
+          <font size="18"/>
           <verticalScrollBarPolicy value="20"/>
         </properties>
         <border type="none"/>
@@ -59,6 +60,7 @@
         <properties>
           <enabled value="false"/>
           <fillsViewportHeight value="false"/>
+          <font size="18"/>
           <preferredScrollableViewportSize width="450" height="40"/>
         </properties>
       </component>

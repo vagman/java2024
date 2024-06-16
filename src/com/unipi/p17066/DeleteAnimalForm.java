@@ -1,42 +1,30 @@
 package com.unipi.p17066;
 
+import com.unipi.p17066.DBFunctions.Connector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
 
 public class DeleteAnimalForm extends JFrame {
-
     private JPanel deleteAnimalPanel;
     private JButton backToMainMenu;
     private JButton deleteAnimalButton;
     private JTextField deleteAnimalIDTextField;
 
-    static Connection connection;
-    private static Connection connect(){
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:zoo.db");
-            return connection;
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-            return null;
-        }
-    }
-
+    static Connector connector = new Connector();
     public static void deleteAnimal(String id) {
-        connection = connect();
         try {
-            assert connection != null;
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM animal WHERE id = ?");
+            assert connector.connect() != null;
+            PreparedStatement statement = connector.connect().prepareStatement("DELETE FROM animal WHERE id = ?");
             statement.setString(1, id);
             statement.executeUpdate();
             statement.close();
-            connection.close();
+            connector.connect().close();
             JOptionPane.showMessageDialog(null, "The animal you selected has been successfully deleted from the database.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
@@ -69,8 +57,6 @@ public class DeleteAnimalForm extends JFrame {
                 dispose();
             }
         });
-
-
 
         deleteAnimalButton.addActionListener(new ActionListener() {
             @Override

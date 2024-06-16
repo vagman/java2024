@@ -33,7 +33,7 @@
         </constraints>
         <properties>
           <font size="18"/>
-          <text value="&lt;html&gt;Enter the ID of the animal&lt;br/&gt;you wish to delete&lt;/html&gt;"/>
+          <text value="&lt;html&gt;Enter the ID of the animal&lt;br/&gt;you wish to delete:&lt;/html&gt;"/>
         </properties>
       </component>
       <component id="31b99" class="javax.swing.JTextField" binding="deleteAnimalIDTextField">
