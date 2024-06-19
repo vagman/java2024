@@ -1,4 +1,4 @@
 ### Zoo App
-Implementing CRUD operations in JAVA using Swing UI (yes, I did 🤡) as frontend and SQLite for backend as part of the second assignment in Jaca class, 2nd semester.
+Implementation of [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations in JAVA using Swing UI as frontend (yes, I did 🤡) and SQLite for backend as part of the second assignment in JaVa class, second semester.
 
- ![ Alt Text](https://github.com/vagman/java2024/blob/master/menu.png)
+ ![](https://github.com/vagman/java2024/blob/master/menu.png)
